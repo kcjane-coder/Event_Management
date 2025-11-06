@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import PostList from './components/PostList';
+import Homepage from "./components/Homepage";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import RegisterPage from "./components/RegisterPage";
 import PostForm from './components/PostForm';
-import { AppBar, Toolbar, Typography, Button, Container } from '@mui/material';
 
 function App() {
   const [selectedPost, setSelectedPost] = useState(null);
@@ -12,7 +13,7 @@ function App() {
     setSelectedPost(post);
     setOpenForm(true);
   };
- const handleCloseForm = () => {
+  const handleCloseForm = () => {
     setSelectedPost(null);
     setOpenForm(false);
   };
@@ -23,29 +24,19 @@ function App() {
   };
 
   return (
-    <>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            React + Laravel Blog
-          </Typography>
-          <Button color="inherit" onClick={() => handleOpenForm()}>
-            Add New Post
-          </Button>
-        </Toolbar>
-      </AppBar>
-
-      <Container sx={{ mt: 4 }}>
-        <PostList onSelect={handleOpenForm} key={refresh} />
-      </Container>
-
+    <Router>
       <PostForm
         open={openForm}
         onClose={handleCloseForm}
         selectedPost={selectedPost}
         onSaved={handleSaved}
       />
-    </>
+
+      <Routes>
+        <Route path="/" element={<Homepage onOpenForm={handleOpenForm} refresh={refresh} />} />
+        <Route path="/register" element={<RegisterPage />} />
+      </Routes>
+    </Router>
   );
 }
 
