@@ -6,11 +6,12 @@ import {
   Button,
   MenuItem,
   Paper,
-  Link,
 } from "@mui/material";
-import axios from "axios"; // ✅ Import axios
+import { useNavigate } from "react-router-dom"; // ✅ Import navigation hook
+import axiosClient from "../api/axiosClient";
 
 const RegisterPage = () => {
+  const navigate = useNavigate(); // ✅ Initialize navigation
   const [formData, setFormData] = useState({
     role: "",
     username: "",
@@ -31,15 +32,13 @@ const RegisterPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // basic validation
     if (formData.password !== formData.confirmPassword) {
       alert("Passwords do not match!");
       return;
     }
 
     try {
-      // ✅ adjust the URL to your Laravel route (e.g., localhost:8000/api/register)
-      const response = await axios.post("http://127.0.0.1:8000/api/register", {
+      const response = await axiosClient.post("/register", {
         role: formData.role,
         username: formData.username,
         email: formData.email,
@@ -49,7 +48,7 @@ const RegisterPage = () => {
       console.log("Registration successful:", response.data);
       alert("Account registered successfully!");
 
-      // optionally reset form
+      // reset form
       setFormData({
         role: "",
         username: "",
@@ -58,6 +57,8 @@ const RegisterPage = () => {
         confirmPassword: "",
       });
 
+      // ✅ redirect to login page after success
+      navigate("/login");
     } catch (error) {
       console.error("Registration failed:", error);
       alert("Registration failed. Please try again.");
@@ -123,39 +124,40 @@ const RegisterPage = () => {
             ))}
           </TextField>
 
-          {/* Username, Email, Password, Confirm Password Fields */}
+          {/* Username, Email, Password, Confirm Password */}
           {[
-  { label: "Username", name: "username" },
-  { label: "Email", name: "email" },
-  { label: "Password", name: "password" },
-  { label: "Confirm Password", name: "confirmPassword" },
-].map(({ label, name }) => (
-                <TextField
-                  key={name}
-                  fullWidth
-                  label={label}
-                  name={name}
-                  type={
-                    label.toLowerCase().includes("password")
-              ? "password"
-      : label === "Email"
-      ? "email"
-      : "text"}
-    value={formData[name]}
-    onChange={handleChange}
-    margin="normal"
-    required
-    InputLabelProps={{ style: { color: "#fff" } }}
-    InputProps={{ style: { color: "#fff" } }}
-    sx={{
-      "& .MuiOutlinedInput-root": {
-        "& fieldset": { borderColor: "#fff" },
-        "&:hover fieldset": { borderColor: "#fff" },
-        "&.Mui-focused fieldset": { borderColor: "#fff" },
-      },
-    }}
-  />
-))}
+            { label: "Username", name: "username" },
+            { label: "Email", name: "email" },
+            { label: "Password", name: "password" },
+            { label: "Confirm Password", name: "confirmPassword" },
+          ].map(({ label, name }) => (
+            <TextField
+              key={name}
+              fullWidth
+              label={label}
+              name={name}
+              type={
+                label.toLowerCase().includes("password")
+                  ? "password"
+                  : label === "Email"
+                  ? "email"
+                  : "text"
+              }
+              value={formData[name]}
+              onChange={handleChange}
+              margin="normal"
+              required
+              InputLabelProps={{ style: { color: "#fff" } }}
+              InputProps={{ style: { color: "#fff" } }}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": { borderColor: "#fff" },
+                  "&:hover fieldset": { borderColor: "#fff" },
+                  "&.Mui-focused fieldset": { borderColor: "#fff" },
+                },
+              }}
+            />
+          ))}
 
           <Button
             type="submit"
@@ -177,12 +179,27 @@ const RegisterPage = () => {
             Register
           </Button>
 
+          {/* ✅ Sign In Button */}
           <Typography variant="body2" sx={{ mt: 2, color: "#fff" }}>
-            Already have an account?{" "}
-            <Link href="#" underline="hover" sx={{ color: "#ffe8d6" }}>
-              Sign in
-            </Link>
+            Already have an account?
           </Typography>
+          <Button
+            onClick={() => navigate("/login")} // ✅ navigate to LoginPage
+            variant="outlined"
+            fullWidth
+            sx={{
+              mt: 1,
+              borderColor: "#fff",
+              color: "#fff",
+              textTransform: "none",
+              "&:hover": {
+                borderColor: "#eb9362",
+                color: "#eb9362",
+              },
+            }}
+          >
+            Sign In
+          </Button>
         </form>
       </Paper>
     </Box>

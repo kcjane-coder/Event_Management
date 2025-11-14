@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import Homepage from "./components/Homepage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import RegisterPage from "./components/RegisterPage";
+import LoginPage from "./components/LoginPage";
+import UserDashBoard from "./components/UserDashBoard";
+import OrganizerDashBoard from "./components/OrganizerDashBoard";
+import AdminDashBoard from "./components/AdminDashBoard";
 import PostForm from './components/PostForm';
 
 function App() {
@@ -35,6 +39,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Homepage onOpenForm={handleOpenForm} refresh={refresh} />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/userdashboard" element={<UserDashBoard />} />
+        <Route path="/organizerdashboard" element={<OrganizerDashBoard />} />
+        <Route path="/admindashboard" element={<AdminDashBoard />} />
       </Routes>
     </Router>
   );
