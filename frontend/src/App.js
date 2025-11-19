@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import Homepage from "./components/Homepage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import RegisterPage from "./components/RegisterPage";
-import LoginPage from "./components/LoginPage";
-import UserDashBoard from "./components/UserDashBoard";
-import OrganizerDashBoard from "./components/OrganizerDashBoard";
-import AdminDashBoard from "./components/AdminDashBoard";
-import OrganizerCreateEvent from "./components/OrganizerCreateEvent";
+import RegisterPage from "./pages/Authentications/RegisterPage";
+import LoginPage from "./pages/Authentications/LoginPage";
+import UserDashBoard from "./pages/User/UserDashBoard";
+import OrganizerDashBoard from "./pages/Organizer/OrganizerDashBoard";
+import AdminDashBoard from "./pages/Admin/AdminDashBoard";
+import OrganizerCreateEvent from "./pages/Organizer/OrganizerCreateEvent";
 import PostForm from './components/PostForm';
 
 function App() {

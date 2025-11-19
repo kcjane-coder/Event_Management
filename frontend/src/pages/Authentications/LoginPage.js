@@ -8,7 +8,7 @@ import {
   Link,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom"; // ✅ import this
-import axiosClient from "../api/axiosClient";
+import axiosClient from "../../api/axiosClient";
 
 const SignInPage = () => {
   const navigate = useNavigate(); // ✅ initialize navigation

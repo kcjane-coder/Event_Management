@@ -3,18 +3,17 @@ import { Box, Typography, Paper, Button, Grid } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useNavigate, useLocation } from "react-router-dom";
-import axiosClient from "../api/axiosClient";
+import axiosClient from "../../api/axiosClient";
 
-const UserDashBoard = () => {
+const AdminDashBoard = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
   const [summary, setSummary] = useState({
-    AvailableVenues: 2,
-    TotalBookings: 0,
-    Notifications: 1,
+    users: 1,
+    organizers: 1,
+    venues: 2,
+    bookings: 1,
   });
-
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -23,7 +22,7 @@ const UserDashBoard = () => {
 
   const fetchSummary = async () => {
     try {
-      const res = await axiosClient.get("/user/summary");
+      const res = await axiosClient.get("/admin/summary");
       setSummary(res.data);
     } catch (error) {
       console.error("Failed to load summary:", error);
@@ -57,9 +56,25 @@ const UserDashBoard = () => {
       }}
     >
       {/* HEADER */}
-      <Box sx={{ width: "100%", p: 2, px: 4, background: "linear-gradient(90deg, #004b63, #001f2f)", color: "white", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <Box
+        sx={{
+          width: "100%",
+          p: 2,
+          px: 4,
+          background: "linear-gradient(90deg, #004b63, #001f2f)",
+          color: "white",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          <Button startIcon={<MenuIcon />} variant="contained" sx={{ backgroundColor: "#fff", color: "#003548", fontWeight: "bold", borderRadius: 2, textTransform: "none" }} onClick={() => setMenuOpen(true)}>
+          <Button
+            startIcon={<MenuIcon />}
+            variant="contained"
+            sx={{ backgroundColor: "#fff", color: "#003548", fontWeight: "bold", borderRadius: 2, textTransform: "none" }}
+            onClick={() => setMenuOpen(true)}
+          >
             Menu
           </Button>
           <Typography variant="h5" sx={{ position: "absolute", left: "50%", transform: "translateX(-50%)", fontWeight: "bold", whiteSpace: "nowrap" }}>
@@ -69,7 +84,11 @@ const UserDashBoard = () => {
 
         <Box sx={{ display: "flex", alignItems: "center", gap: 1, pr: 4 }}>
           <AccountCircleIcon sx={{ fontSize: 38 }} />
-          <Button variant="contained" sx={{ backgroundColor: "#fff", color: "#003548", fontWeight: "bold", borderRadius: 2, textTransform: "none" }} onClick={handleLogout}>
+          <Button
+            variant="contained"
+            sx={{ backgroundColor: "#fff", color: "#003548", fontWeight: "bold", borderRadius: 2, textTransform: "none" }}
+            onClick={handleLogout}
+          >
             Logout
           </Button>
         </Box>
@@ -79,20 +98,42 @@ const UserDashBoard = () => {
       {menuOpen && <Box onClick={() => setMenuOpen(false)} sx={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", backgroundColor: "rgba(0,0,0,0.4)", zIndex: 10 }} />}
 
       {/* SIDEBAR */}
-      <Box sx={{ position: "fixed", top: 0, left: 0, width: 250, height: "100vh", backgroundColor: "white", boxShadow: 5, p: 3, zIndex: 11, transform: menuOpen ? "translateX(0)" : "translateX(-300px)", transition: "transform 0.4s ease", display: "flex", flexDirection: "column", gap: 2 }}>
+      <Box
+        sx={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: 250,
+          height: "100vh",
+          backgroundColor: "white",
+          boxShadow: 5,
+          p: 3,
+          zIndex: 11,
+          transform: menuOpen ? "translateX(0)" : "translateX(-300px)",
+          transition: "transform 0.4s ease",
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+        }}
+      >
         <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2 }}>MENU</Typography>
-
-        <Button variant="text" onClick={() => navigate("/UserDashBoard")} sx={getButtonStyle("/UserDashBoard")}>Dashboard</Button>
-        <Button variant="text" onClick={() => navigate("/BookVenue")} sx={getButtonStyle("/BookVenue")}>Book Venue</Button>
+        <Button
+          variant="text"
+          onClick={() => navigate("/AdminDashBoard")}
+          sx={getButtonStyle("/AdminDashBoard")}
+        >
+          Dashboard
+        </Button>
+        <Button variant="text" onClick={() => navigate("/all-bookings")} sx={getButtonStyle("/all-bookings")}>View Bookings</Button>
         <Button variant="text" onClick={() => navigate("/venues")} sx={getButtonStyle("/venues")}>View Venues</Button>
-        <Button variant="text" onClick={() => navigate("/Notifications")} sx={getButtonStyle("/Notifications")}>Notifications</Button>
-        <Button variant="text" onClick={() => navigate("/BookingHistory")} sx={getButtonStyle("/BookingHistory")}>Booking History</Button>
-        <Button variant="text" onClick={() => navigate("/Profile")} sx={getButtonStyle("/Profile")}>Profile</Button>
+        <Button variant="text" onClick={() => navigate("/organizers")} sx={getButtonStyle("/organizers")}>Organizers</Button>
+        <Button variant="text" onClick={() => navigate("/guests")} sx={getButtonStyle("/guests")}>Guests</Button>
+        <Button variant="text" onClick={() => navigate("/profile")} sx={getButtonStyle("/profile")}>Profile</Button>
 
         <Button sx={{ mt: "auto", color: "red", fontWeight: "bold" }} onClick={handleLogout}>Logout</Button>
       </Box>
 
-      {/* EVENT SUMMARY TITLE */}
+      {/* SUMMARY TITLE */}
       <Box sx={{ textAlign: "center", mt: 4 }}>
         <Button variant="outlined" sx={{ fontWeight: "bold", borderWidth: 2, borderRadius: 2, px: 4, py: 1, fontSize: "1.1rem", color: "black", borderColor: "black", backgroundColor: "white" }}>
           EVENT SUMMARY
@@ -102,22 +143,28 @@ const UserDashBoard = () => {
       {/* SUMMARY CARDS */}
       <Paper elevation={4} sx={{ width: "60%", mx: "auto", mt: 4, borderRadius: 4, p: 4, backgroundColor: "rgba(255,255,255,0.4)", backdropFilter: "blur(5px)" }}>
         <Grid container spacing={4} justifyContent="center">
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={6}>
             <Box sx={{ backgroundColor: "#004b63", color: "white", borderRadius: 3, p: 3, textAlign: "center" }}>
-              <Typography sx={{ fontSize: "1.4rem", fontWeight: "bold" }}>Available Venues</Typography>
-              <Typography sx={{ fontSize: "3rem", fontWeight: "bold", color: "#ffae00" }}>{summary.AvailableVenues}</Typography>
+              <Typography sx={{ fontSize: "1.4rem", fontWeight: "bold" }}>USERS</Typography>
+              <Typography sx={{ fontSize: "3rem", fontWeight: "bold", color: "#ffae00" }}>{summary.users}</Typography>
             </Box>
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={6}>
             <Box sx={{ backgroundColor: "#004b63", color: "white", borderRadius: 3, p: 3, textAlign: "center" }}>
-              <Typography sx={{ fontSize: "1.4rem", fontWeight: "bold" }}>Total Bookings</Typography>
-              <Typography sx={{ fontSize: "3rem", fontWeight: "bold", color: "#ffae00" }}>{summary.TotalBookings}</Typography>
+              <Typography sx={{ fontSize: "1.4rem", fontWeight: "bold" }}>ORGANIZERS</Typography>
+              <Typography sx={{ fontSize: "3rem", fontWeight: "bold", color: "#ffae00" }}>{summary.organizers}</Typography>
             </Box>
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={6}>
             <Box sx={{ backgroundColor: "#004b63", color: "white", borderRadius: 3, p: 3, textAlign: "center" }}>
-              <Typography sx={{ fontSize: "1.4rem", fontWeight: "bold" }}>Notifications</Typography>
-              <Typography sx={{ fontSize: "3rem", fontWeight: "bold", color: "#ffae00" }}>{summary.Notifications}</Typography>
+              <Typography sx={{ fontSize: "1.4rem", fontWeight: "bold" }}>VENUES</Typography>
+              <Typography sx={{ fontSize: "3rem", fontWeight: "bold", color: "#ffae00" }}>{summary.venues}</Typography>
+            </Box>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Box sx={{ backgroundColor: "#004b63", color: "white", borderRadius: 3, p: 3, textAlign: "center" }}>
+              <Typography sx={{ fontSize: "1.4rem", fontWeight: "bold" }}>BOOKINGS</Typography>
+              <Typography sx={{ fontSize: "3rem", fontWeight: "bold", color: "#ffae00" }}>{summary.bookings}</Typography>
             </Box>
           </Grid>
         </Grid>
@@ -126,4 +173,4 @@ const UserDashBoard = () => {
   );
 };
 
-export default UserDashBoard;
+export default AdminDashBoard;
