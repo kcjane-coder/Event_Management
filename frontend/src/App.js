@@ -6,6 +6,7 @@ import LoginPage from "./components/LoginPage";
 import UserDashBoard from "./components/UserDashBoard";
 import OrganizerDashBoard from "./components/OrganizerDashBoard";
 import AdminDashBoard from "./components/AdminDashBoard";
+import OrganizerCreateEvent from "./components/OrganizerCreateEvent";
 import PostForm from './components/PostForm';
 
 function App() {
@@ -43,6 +44,8 @@ function App() {
         <Route path="/userdashboard" element={<UserDashBoard />} />
         <Route path="/organizerdashboard" element={<OrganizerDashBoard />} />
         <Route path="/admindashboard" element={<AdminDashBoard />} />
+        <Route path="/organizer/create-event" element={<OrganizerCreateEvent />} />
+        <Route path="/organizer/dashboard" element={<OrganizerDashBoard />} />
       </Routes>
     </Router>
   );

@@ -4,34 +4,34 @@ import {
   Typography,
   Paper,
   Button,
-  Grid,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useNavigate, useLocation } from "react-router-dom";
 import axiosClient from "../api/axiosClient";
 
-const OrganizerDashBoard = () => {
+const OrganizerCreateEvent = () => {
   const navigate = useNavigate();
-  const location = useLocation(); // For active route highlighting
-  const [summary, setSummary] = useState({
-    totalEvents: 0,
-    upcomingEvents: 0,
-    notifications: 0,
-    rsvp: 0,
-  });
+  const location = useLocation(); // To track the current route
   const [menuOpen, setMenuOpen] = useState(false);
+  const [venues, setVenues] = useState([]);
 
   useEffect(() => {
-    fetchSummary();
+    fetchVenues();
   }, []);
 
-  const fetchSummary = async () => {
+  const fetchVenues = async () => {
     try {
-      const res = await axiosClient.get("/organizer/summary");
-      setSummary(res.data);
-    } catch (error) {
-      console.error("Failed to load summary:", error);
+      const res = await axiosClient.get("/organizer/venues");
+      setVenues(res.data);
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -41,7 +41,7 @@ const OrganizerDashBoard = () => {
     navigate("/login");
   };
 
-  // Function to style active sidebar buttons
+  // Function to style active buttons
   const getButtonStyle = (path) => ({
     textAlign: "left",
     justifyContent: "flex-start",
@@ -55,12 +55,11 @@ const OrganizerDashBoard = () => {
     <Box
       sx={{
         minHeight: "100vh",
-        p: 0,
         backgroundImage:
           "url('https://i.pinimg.com/736x/65/d6/b6/65d6b6447e454e4d6a45a4e056d5cb6e.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
+        p: 0,
       }}
     >
       {/* HEADER */}
@@ -165,7 +164,7 @@ const OrganizerDashBoard = () => {
           MENU
         </Typography>
 
-        {/* Sidebar Buttons with Active Highlight */}
+        {/* Sidebar Buttons with active highlight */}
         <Button variant="text"onClick={() => navigate("/OrganizerDashBoard")} sx={getButtonStyle("/OrganizerDashBoard")}>Dashboard</Button>
         <Button variant="text"onClick={() => navigate("/organizer/create-event")} sx={getButtonStyle("/organizer/create-event")}>Create Event</Button>
         <Button variant="text"onClick={() => navigate("/venues")} sx={getButtonStyle("/venues")}>View Venues</Button>
@@ -183,123 +182,108 @@ const OrganizerDashBoard = () => {
         </Button>
       </Box>
 
-      {/* EVENT SUMMARY TITLE */}
+      {/* PAGE TITLE */}
       <Box sx={{ textAlign: "center", mt: 4 }}>
         <Button
-          variant="outlined"
+          variant="contained"
           sx={{
+            backgroundColor: "white",
+            color: "black",
             fontWeight: "bold",
-            borderWidth: 2,
             borderRadius: 2,
             px: 4,
-            py: 1,
+            py: 1.2,
             fontSize: "1.1rem",
-            color: "black",
-            borderColor: "black",
-            backgroundColor: "white",
           }}
         >
-          EVENT SUMMARY
+          CREATE EVENT
         </Button>
       </Box>
 
-      {/* SUMMARY CARDS */}
+      {/* CONTAINER */}
       <Paper
-        elevation={4}
+        elevation={5}
         sx={{
-          width: "60%",
+          width: "80%",
           mx: "auto",
           mt: 4,
-          borderRadius: 4,
           p: 4,
-          backgroundColor: "rgba(255,255,255,0.4)",
-          backdropFilter: "blur(5px)",
+          borderRadius: 4,
+          backgroundColor: "rgba(255,255,255,0.85)",
         }}
       >
-        <Grid container spacing={4} justifyContent="center">
-          {/** TOTAL EVENTS */}
-          <Grid item xs={12} sm={6}>
-            <Box
-              sx={{
-                backgroundColor: "#004b63",
-                color: "white",
-                borderRadius: 3,
-                p: 3,
-                textAlign: "center",
-              }}
-            >
-              <Typography sx={{ fontSize: "1.4rem", fontWeight: "bold" }}>
-                TOTAL EVENTS
-              </Typography>
-              <Typography sx={{ fontSize: "3rem", fontWeight: "bold", color: "#ffae00" }}>
-                {summary.totalEvents}
-              </Typography>
-            </Box>
-          </Grid>
+        {/* ADD VENUE BUTTON */}
+        <Button
+          variant="contained"
+          sx={{
+            backgroundColor: "black",
+            color: "yellow",
+            fontWeight: "bold",
+            mb: 2,
+            px: 3,
+            py: 1,
+            borderRadius: 2,
+            textTransform: "none",
+          }}
+          onClick={() => navigate("/organizer/add-venue")}
+        >
+          Add Venue
+        </Button>
 
-          {/** UPCOMING EVENTS */}
-          <Grid item xs={12} sm={6}>
-            <Box
-              sx={{
-                backgroundColor: "#004b63",
-                color: "white",
-                borderRadius: 3,
-                p: 3,
-                textAlign: "center",
-              }}
-            >
-              <Typography sx={{ fontSize: "1.4rem", fontWeight: "bold" }}>
-                UPCOMING EVENTS
-              </Typography>
-              <Typography sx={{ fontSize: "3rem", fontWeight: "bold", color: "#ffae00" }}>
-                {summary.upcomingEvents}
-              </Typography>
-            </Box>
-          </Grid>
+        {/* TABLE */}
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow sx={{ backgroundColor: "#003548" }}>
+                <TableCell sx={{ color: "white", fontWeight: "bold" }}>ID</TableCell>
+                <TableCell sx={{ color: "white", fontWeight: "bold" }}>Name</TableCell>
+                <TableCell sx={{ color: "white", fontWeight: "bold" }}>Place</TableCell>
+                <TableCell sx={{ color: "white", fontWeight: "bold" }}>Contact</TableCell>
+                <TableCell sx={{ color: "white", fontWeight: "bold" }}>Action</TableCell>
+              </TableRow>
+            </TableHead>
 
-          {/** NOTIFICATIONS */}
-          <Grid item xs={12} sm={6}>
-            <Box
-              sx={{
-                backgroundColor: "#004b63",
-                color: "white",
-                borderRadius: 3,
-                p: 3,
-                textAlign: "center",
-              }}
-            >
-              <Typography sx={{ fontSize: "1.4rem", fontWeight: "bold" }}>
-                NOTIFICATIONS
-              </Typography>
-              <Typography sx={{ fontSize: "3rem", fontWeight: "bold", color: "#ffae00" }}>
-                {summary.notifications}
-              </Typography>
-            </Box>
-          </Grid>
+            <TableBody>
+              {venues.map((v) => (
+                <TableRow key={v.id}>
+                  <TableCell>{v.id}</TableCell>
+                  <TableCell>{v.name}</TableCell>
+                  <TableCell>{v.place}</TableCell>
+                  <TableCell>{v.contact}</TableCell>
+                  <TableCell>
+                    <Button
+                      size="small"
+                      variant="contained"
+                      onClick={() => alert("Edit Venue " + v.id)}
+                      sx={{ mr: 1 }}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      color="error"
+                      onClick={() => alert("Delete Venue " + v.id)}
+                    >
+                      Delete
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
 
-          {/** RSVP */}
-          <Grid item xs={12} sm={6}>
-            <Box
-              sx={{
-                backgroundColor: "#004b63",
-                color: "white",
-                borderRadius: 3,
-                p: 3,
-                textAlign: "center",
-              }}
-            >
-              <Typography sx={{ fontSize: "1.4rem", fontWeight: "bold" }}>
-                RSVP
-              </Typography>
-              <Typography sx={{ fontSize: "3rem", fontWeight: "bold", color: "#ffae00" }}>
-                {summary.rsvp}
-              </Typography>
-            </Box>
-          </Grid>
-        </Grid>
+              {venues.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={5} align="center">
+                    No venues yet.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </Paper>
     </Box>
   );
 };
 
-export default OrganizerDashBoard;
+export default OrganizerCreateEvent;

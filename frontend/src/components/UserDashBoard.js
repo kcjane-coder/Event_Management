@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Box, Typography, Paper, Button, Grid } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axiosClient from "../api/axiosClient";
 
 const UserDashBoard = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
-  // ✅ State keys match your actual data
   const [summary, setSummary] = useState({
     AvailableVenues: 2,
     TotalBookings: 0,
@@ -23,8 +23,8 @@ const UserDashBoard = () => {
 
   const fetchSummary = async () => {
     try {
-      const res = await axiosClient.get("/admin/summary"); 
-      setSummary(res.data); // API should return { AvailableVenues, TotalBookings, Notifications }
+      const res = await axiosClient.get("/user/summary");
+      setSummary(res.data);
     } catch (error) {
       console.error("Failed to load summary:", error);
     }
@@ -36,17 +36,26 @@ const UserDashBoard = () => {
     navigate("/login");
   };
 
+  const getButtonStyle = (path) => ({
+    textAlign: "left",
+    justifyContent: "flex-start",
+    fontWeight: "bold",
+    boxShadow: location.pathname === path ? 3 : "none",
+    backgroundColor: location.pathname === path ? "#e0e0e0" : "transparent",
+    borderRadius: 1,
+  });
+
   return (
     <Box
-  sx={{
-    minHeight: "100vh",
-    p: 0,
-    backgroundImage: "url('https://i.pinimg.com/736x/65/d6/b6/65d6b6447e454e4d6a45a4e056d5cb6e.jpg')",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
-  }}
->
+      sx={{
+        minHeight: "100vh",
+        p: 0,
+        backgroundImage: "url('https://i.pinimg.com/736x/65/d6/b6/65d6b6447e454e4d6a45a4e056d5cb6e.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       {/* HEADER */}
       <Box sx={{ width: "100%", p: 2, px: 4, background: "linear-gradient(90deg, #004b63, #001f2f)", color: "white", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
@@ -66,59 +75,45 @@ const UserDashBoard = () => {
         </Box>
       </Box>
 
-      {/* SLIDE OUT MENU */}
+      {/* DARK OVERLAY */}
       {menuOpen && <Box onClick={() => setMenuOpen(false)} sx={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", backgroundColor: "rgba(0,0,0,0.4)", zIndex: 10 }} />}
 
+      {/* SIDEBAR */}
       <Box sx={{ position: "fixed", top: 0, left: 0, width: 250, height: "100vh", backgroundColor: "white", boxShadow: 5, p: 3, zIndex: 11, transform: menuOpen ? "translateX(0)" : "translateX(-300px)", transition: "transform 0.4s ease", display: "flex", flexDirection: "column", gap: 2 }}>
         <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2 }}>MENU</Typography>
-        <Button variant="text" onClick={() => navigate("/BookVenue")}>Book Venue</Button>
-        <Button variant="text" onClick={() => navigate("/venues")}>View Venues</Button>
-        <Button variant="text" onClick={() => navigate("/Notifications")}>Notifications</Button>
-        <Button variant="text" onClick={() => navigate("/BookingHistory")}>Booking History</Button>
-        <Button variant="text" onClick={() => navigate("/Profile")}>Profile</Button>
+
+        <Button variant="text" onClick={() => navigate("/UserDashBoard")} sx={getButtonStyle("/UserDashBoard")}>Dashboard</Button>
+        <Button variant="text" onClick={() => navigate("/BookVenue")} sx={getButtonStyle("/BookVenue")}>Book Venue</Button>
+        <Button variant="text" onClick={() => navigate("/venues")} sx={getButtonStyle("/venues")}>View Venues</Button>
+        <Button variant="text" onClick={() => navigate("/Notifications")} sx={getButtonStyle("/Notifications")}>Notifications</Button>
+        <Button variant="text" onClick={() => navigate("/BookingHistory")} sx={getButtonStyle("/BookingHistory")}>Booking History</Button>
+        <Button variant="text" onClick={() => navigate("/Profile")} sx={getButtonStyle("/Profile")}>Profile</Button>
+
         <Button sx={{ mt: "auto", color: "red", fontWeight: "bold" }} onClick={handleLogout}>Logout</Button>
       </Box>
 
       {/* EVENT SUMMARY TITLE */}
-<Box sx={{ textAlign: "center", mt: 4 }}>
-  <Button
-    variant="outlined"
-    sx={{
-      fontWeight: "bold",
-      borderWidth: 2,
-      borderRadius: 2,
-      px: 4,
-      py: 1,
-      fontSize: "1.1rem",
-      color: "black",          // Black font
-      borderColor: "black",    // Black border
-      backgroundColor: "white", // White background
-    }}
-  >
-    EVENT SUMMARY
-  </Button>
-</Box>
+      <Box sx={{ textAlign: "center", mt: 4 }}>
+        <Button variant="outlined" sx={{ fontWeight: "bold", borderWidth: 2, borderRadius: 2, px: 4, py: 1, fontSize: "1.1rem", color: "black", borderColor: "black", backgroundColor: "white" }}>
+          EVENT SUMMARY
+        </Button>
+      </Box>
 
-      {/* SUMMARY CARD */}
+      {/* SUMMARY CARDS */}
       <Paper elevation={4} sx={{ width: "60%", mx: "auto", mt: 4, borderRadius: 4, p: 4, backgroundColor: "rgba(255,255,255,0.4)", backdropFilter: "blur(5px)" }}>
         <Grid container spacing={4} justifyContent="center">
-          {/* Available Venues */}
           <Grid item xs={12} sm={4}>
             <Box sx={{ backgroundColor: "#004b63", color: "white", borderRadius: 3, p: 3, textAlign: "center" }}>
               <Typography sx={{ fontSize: "1.4rem", fontWeight: "bold" }}>Available Venues</Typography>
               <Typography sx={{ fontSize: "3rem", fontWeight: "bold", color: "#ffae00" }}>{summary.AvailableVenues}</Typography>
             </Box>
           </Grid>
-
-          {/* Total Bookings */}
           <Grid item xs={12} sm={4}>
             <Box sx={{ backgroundColor: "#004b63", color: "white", borderRadius: 3, p: 3, textAlign: "center" }}>
               <Typography sx={{ fontSize: "1.4rem", fontWeight: "bold" }}>Total Bookings</Typography>
               <Typography sx={{ fontSize: "3rem", fontWeight: "bold", color: "#ffae00" }}>{summary.TotalBookings}</Typography>
             </Box>
           </Grid>
-
-          {/* Notifications */}
           <Grid item xs={12} sm={4}>
             <Box sx={{ backgroundColor: "#004b63", color: "white", borderRadius: 3, p: 3, textAlign: "center" }}>
               <Typography sx={{ fontSize: "1.4rem", fontWeight: "bold" }}>Notifications</Typography>
