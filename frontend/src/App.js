@@ -7,6 +7,8 @@ import UserDashBoard from "./pages/User/UserDashBoard";
 import OrganizerDashBoard from "./pages/Organizer/OrganizerDashBoard";
 import AdminDashBoard from "./pages/Admin/AdminDashBoard";
 import OrganizerCreateEvent from "./pages/Organizer/OrganizerCreateEvent";
+import OrganizerAddVenue from "./pages/Organizer/OrganizerAddVenue";
+import ViewBookings from "./pages/Organizer/ViewBookings";
 import PostForm from './components/PostForm';
 
 function App() {
@@ -46,6 +48,8 @@ function App() {
         <Route path="/admindashboard" element={<AdminDashBoard />} />
         <Route path="/organizer/create-event" element={<OrganizerCreateEvent />} />
         <Route path="/organizer/dashboard" element={<OrganizerDashBoard />} />
+        <Route path="/organizer/add-venue" element={<OrganizerAddVenue />} />
+        <Route path="/bookings" element={<ViewBookings />} /> 
       </Routes>
     </Router>
   );
