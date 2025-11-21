@@ -56,7 +56,7 @@ const OrganizerCreateEvent = () => {
     navigate("/login");
   };
 
-  
+
   const getButtonStyle = (path) => ({
     textAlign: "left",
     justifyContent: "flex-start",
@@ -76,7 +76,7 @@ const OrganizerCreateEvent = () => {
     try {
       await axiosClient.delete(`/organizer/venues/${selectedVenue.id}`);
       setDeleteDialogOpen(false);
-      fetchVenues(); // refresh the list
+      fetchVenues(); 
       alert("Venue deleted successfully!");
     } catch (err) {
       console.error(err);

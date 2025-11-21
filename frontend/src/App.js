@@ -10,6 +10,7 @@ import OrganizerCreateEvent from "./pages/Organizer/OrganizerCreateEvent";
 import OrganizerAddVenue from "./pages/Organizer/OrganizerAddVenue";
 import ViewBookings from "./pages/Organizer/ViewBookings";
 import PostForm from './components/PostForm';
+import OrganizerProfile from './pages/Organizer/OrganizerProfile';
 
 function App() {
   const [selectedPost, setSelectedPost] = useState(null);
@@ -50,6 +51,7 @@ function App() {
         <Route path="/organizer/dashboard" element={<OrganizerDashBoard />} />
         <Route path="/organizer/add-venue" element={<OrganizerAddVenue />} />
         <Route path="/bookings" element={<ViewBookings />} /> 
+        <Route path="/profile" element={<OrganizerProfile />} /> 
       </Routes>
     </Router>
   );

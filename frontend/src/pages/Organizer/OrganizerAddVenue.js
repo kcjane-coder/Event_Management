@@ -28,11 +28,11 @@ const OrganizerAddVenue = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // ▶ ADD VENUE FUNCTIONALITY
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Basic validation
+    
     if (!form.name || !form.place || !form.contact || !form.description) {
       alert("Please fill in all fields.");
       return;
@@ -43,7 +43,7 @@ const OrganizerAddVenue = () => {
 
       alert("Venue added successfully!");
 
-      // Reset fields
+     
       setForm({
         name: "",
         place: "",

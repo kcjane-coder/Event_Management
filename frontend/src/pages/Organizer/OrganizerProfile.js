@@ -11,27 +11,28 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useNavigate, useLocation } from "react-router-dom";
 import axiosClient from "../../api/axiosClient";
 
-const OrganizerDashBoard = () => {
+const OrganizerProfile = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [summary, setSummary] = useState({
-    totalEvents: 0,
-    upcomingEvents: 0,
-    notifications: 0,
-    rsvp: 0,
-  });
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const [profile, setProfile] = useState({
+    id: "",
+    role: "",
+    name: "",
+    email: "",
+  });
+
   useEffect(() => {
-    fetchSummary();
+    fetchProfile();
   }, []);
 
-  const fetchSummary = async () => {
+  const fetchProfile = async () => {
     try {
-      const res = await axiosClient.get("/organizer/summary");
-      setSummary(res.data);
+      const res = await axiosClient.get("/organizer/profile");
+      setProfile(res.data);
     } catch (error) {
-      console.error("Failed to load summary:", error);
+      console.error("Failed to load profile:", error);
     }
   };
 
@@ -41,7 +42,6 @@ const OrganizerDashBoard = () => {
     navigate("/login");
   };
 
-  
   const getButtonStyle = (path) => ({
     textAlign: "left",
     justifyContent: "flex-start",
@@ -60,7 +60,6 @@ const OrganizerDashBoard = () => {
           "url('https://i.pinimg.com/736x/65/d6/b6/65d6b6447e454e4d6a45a4e056d5cb6e.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
       }}
     >
       {/* HEADER */}
@@ -108,7 +107,7 @@ const OrganizerDashBoard = () => {
         </Box>
 
         {/* RIGHT */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1, pr: 4 }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <AccountCircleIcon sx={{ fontSize: 38 }} />
           <Button
             variant="contained"
@@ -142,7 +141,7 @@ const OrganizerDashBoard = () => {
         />
       )}
 
-      {/* SLIDE OUT SIDEBAR */}
+      {/* SIDEBAR */}
       <Box
         sx={{
           position: "fixed",
@@ -165,25 +164,19 @@ const OrganizerDashBoard = () => {
           MENU
         </Typography>
 
-        {/* Sidebar Buttons with Active Highlight */}
-        <Button variant="text"onClick={() => navigate("/OrganizerDashBoard")} sx={getButtonStyle("/OrganizerDashBoard")}>Dashboard</Button>
-        <Button variant="text"onClick={() => navigate("/organizer/create-event")} sx={getButtonStyle("/organizer/create-event")}>Create Event</Button>
-        <Button variant="text"onClick={() => navigate("/venues")} sx={getButtonStyle("/venues")}>View Venues</Button>
-        <Button variant="text"onClick={() => navigate("/bookings")} sx={getButtonStyle("/bookings")}>View Bookings</Button>
-        <Button variant="text"onClick={() => navigate("/guest-list")} sx={getButtonStyle("/guest-list")}>Guest List</Button>
-        <Button variant="text"onClick={() => navigate("/rsvp")} sx={getButtonStyle("/rsvp")}>RSVP</Button>
-        <Button variant="text"onClick={() => navigate("/notifications")} sx={getButtonStyle("/notifications")}>Notifications</Button>
-        <Button variant="text"onClick={() => navigate("/profile")} sx={getButtonStyle("/profile")}>Profile</Button>
+        <Button variant="text" onClick={() => navigate("/OrganizerDashBoard")} sx={getButtonStyle("/OrganizerDashBoard")}>Dashboard</Button>
+        <Button variant="text" onClick={() => navigate("/organizer/create-event")} sx={getButtonStyle("/organizer/create-event")}>Create Event</Button>
+        <Button variant="text" onClick={() => navigate("/venues")} sx={getButtonStyle("/venues")}>View Venues</Button>
+        <Button variant="text" onClick={() => navigate("/bookings")} sx={getButtonStyle("/bookings")}>View Bookings</Button>
+        <Button variant="text" onClick={() => navigate("/guest-list")} sx={getButtonStyle("/guest-list")}>Guest List</Button>
+        <Button variant="text" onClick={() => navigate("/rsvp")} sx={getButtonStyle("/rsvp")}>RSVP</Button>
+        <Button variant="text" onClick={() => navigate("/notifications")} sx={getButtonStyle("/notifications")}>Notifications</Button>
+        <Button variant="text" onClick={() => navigate("/profile")} sx={getButtonStyle("/profile")}>Profile</Button>
 
-        <Button
-          sx={{ mt: "auto", color: "red", fontWeight: "bold" }}
-          onClick={handleLogout}
-        >
-          Logout
-        </Button>
+        <Button sx={{ mt: "auto", color: "red", fontWeight: "bold" }} onClick={handleLogout}>Logout</Button>
       </Box>
 
-      {/* EVENT SUMMARY TITLE */}
+      {/* PROFILE TITLE */}
       <Box sx={{ textAlign: "center", mt: 4 }}>
         <Button
           variant="outlined"
@@ -199,11 +192,11 @@ const OrganizerDashBoard = () => {
             backgroundColor: "white",
           }}
         >
-          EVENT SUMMARY
+          PROFILE
         </Button>
       </Box>
 
-      {/* SUMMARY CARDS */}
+      {/* PROFILE CARD */}
       <Paper
         elevation={4}
         sx={{
@@ -216,90 +209,59 @@ const OrganizerDashBoard = () => {
           backdropFilter: "blur(5px)",
         }}
       >
-        <Grid container spacing={4} justifyContent="center">
-          {/** TOTAL EVENTS */}
-          <Grid item xs={12} sm={6}>
-            <Box
-              sx={{
-                backgroundColor: "#004b63",
-                color: "white",
-                borderRadius: 3,
-                p: 3,
-                textAlign: "center",
-              }}
-            >
-              <Typography sx={{ fontSize: "1.4rem", fontWeight: "bold" }}>
-                TOTAL EVENTS
-              </Typography>
-              <Typography sx={{ fontSize: "3rem", fontWeight: "bold", color: "#ffae00" }}>
-                {summary.totalEvents}
-              </Typography>
-            </Box>
-          </Grid>
+        {/* Avatar */}
+        <Box sx={{ textAlign: "center", mb: 3 }}>
+          <AccountCircleIcon sx={{ fontSize: 120, color: "#003548" }} />
+        </Box>
 
-          {/** UPCOMING EVENTS */}
-          <Grid item xs={12} sm={6}>
-            <Box
-              sx={{
-                backgroundColor: "#004b63",
-                color: "white",
-                borderRadius: 3,
-                p: 3,
-                textAlign: "center",
-              }}
-            >
-              <Typography sx={{ fontSize: "1.4rem", fontWeight: "bold" }}>
-                UPCOMING EVENTS
-              </Typography>
-              <Typography sx={{ fontSize: "3rem", fontWeight: "bold", color: "#ffae00" }}>
-                {summary.upcomingEvents}
-              </Typography>
-            </Box>
-          </Grid>
-
-          {/** NOTIFICATIONS */}
-          <Grid item xs={12} sm={6}>
-            <Box
-              sx={{
-                backgroundColor: "#004b63",
-                color: "white",
-                borderRadius: 3,
-                p: 3,
-                textAlign: "center",
-              }}
-            >
-              <Typography sx={{ fontSize: "1.4rem", fontWeight: "bold" }}>
-                NOTIFICATIONS
-              </Typography>
-              <Typography sx={{ fontSize: "3rem", fontWeight: "bold", color: "#ffae00" }}>
-                {summary.notifications}
-              </Typography>
-            </Box>
-          </Grid>
-
-          {/** RSVP */}
-          <Grid item xs={12} sm={6}>
-            <Box
-              sx={{
-                backgroundColor: "#004b63",
-                color: "white",
-                borderRadius: 3,
-                p: 3,
-                textAlign: "center",
-              }}
-            >
-              <Typography sx={{ fontSize: "1.4rem", fontWeight: "bold" }}>
-                RSVP
-              </Typography>
-              <Typography sx={{ fontSize: "3rem", fontWeight: "bold", color: "#ffae00" }}>
-                {summary.rsvp}
-              </Typography>
-            </Box>
-          </Grid>
-        </Grid>
+        {/* Info Table */}
+        <table
+          style={{
+            width: "70%",
+            margin: "auto",
+            borderCollapse: "collapse",
+            fontSize: "1.1rem",
+            fontWeight: "bold",
+          }}
+        >
+          <tbody>
+            <tr>
+              <td style={cellStyle}>ID</td>
+              <td style={valueStyle}>{profile.id}</td>
+            </tr>
+            <tr>
+              <td style={cellStyle}>Role</td>
+              <td style={valueStyle}>{profile.role}</td>
+            </tr>
+            <tr>
+              <td style={cellStyle}>Name</td>
+              <td style={valueStyle}>{profile.name}</td>
+            </tr>
+            <tr>
+              <td style={cellStyle}>Email</td>
+              <td style={valueStyle}>{profile.email}</td>
+            </tr>
+          </tbody>
+        </table>
       </Paper>
     </Box>
   );
 };
 
-export default OrganizerDashBoard;
+const cellStyle = {
+  backgroundColor: "#003548",
+  color: "white",
+  padding: "12px",
+  width: "30%",
+  border: "1px solid black",
+  textAlign: "left",
+};
+
+const valueStyle = {
+  backgroundColor: "white",
+  padding: "12px",
+  border: "1px solid black",
+  textAlign: "left",
+};
+
+export default OrganizerProfile;
