@@ -14,6 +14,10 @@ class Venue extends Model
         'name',
         'place',
         'contact',
-        'description'
+        'description',
+        'event_type',
+        'food_type',
+        'equipment_type',
+         'organizer_id',
     ];
 }

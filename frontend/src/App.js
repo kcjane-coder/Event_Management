@@ -10,6 +10,7 @@ import OrganizerCreateEvent from "./pages/Organizer/OrganizerCreateEvent";
 import OrganizerAddVenue from "./pages/Organizer/OrganizerAddVenue";
 import ViewBookings from "./pages/Organizer/ViewBookings";
 import PostForm from './components/PostForm';
+import DetailsPage from './pages/Organizer/DetailsPage';
 import OrganizerProfile from './pages/Organizer/OrganizerProfile';
 
 function App() {
@@ -52,6 +53,7 @@ function App() {
         <Route path="/organizer/add-venue" element={<OrganizerAddVenue />} />
         <Route path="/bookings" element={<ViewBookings />} /> 
         <Route path="/profile" element={<OrganizerProfile />} /> 
+        <Route path="/organizer/venues" element={<DetailsPage/>} />
       </Routes>
     </Router>
   );

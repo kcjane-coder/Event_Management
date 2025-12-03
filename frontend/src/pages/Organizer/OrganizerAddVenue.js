@@ -5,6 +5,7 @@ import {
   Paper,
   Button,
   TextField,
+  MenuItem,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -18,37 +19,41 @@ const OrganizerAddVenue = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const [form, setForm] = useState({
-    name: "",
-    place: "",
-    contact: "",
-    description: "",
-  });
+  name: "",
+  place: "",
+  contact: "",
+  description: "",
+  event_type: "",       // default value
+  food_type: "",            // default value
+  equipment_type: "", // default value
+});
+
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    
-    if (!form.name || !form.place || !form.contact || !form.description) {
-      alert("Please fill in all fields.");
+     if (!form.name || !form.place || !form.contact || !form.description || !form.event_type || !form.food_type || !form.equipment_type) {
+      alert("Please fill in all required fields.");
       return;
     }
 
     try {
-      const res = await axiosClient.post("/organizer/venues", form);
+      await axiosClient.post("/organizer/venues", form);
 
       alert("Venue added successfully!");
 
-     
       setForm({
         name: "",
         place: "",
         contact: "",
         description: "",
+        event_type: "",
+        food_type: "",
+        equipment_type: "",
       });
 
       navigate("/organizer/create-event");
@@ -143,7 +148,7 @@ const OrganizerAddVenue = () => {
         </Box>
       </Box>
 
-      {/* Dark Overlay */}
+      {/* OVERLAY */}
       {menuOpen && (
         <Box
           onClick={() => setMenuOpen(false)}
@@ -197,15 +202,6 @@ const OrganizerAddVenue = () => {
         >
           Create Event
         </Button>
-
-        <Button
-          variant="text"
-          onClick={() => navigate("/venues")}
-          sx={getButtonStyle("/venues")}
-        >
-          View Venues
-        </Button>
-
         <Button
           variant="text"
           onClick={() => navigate("/bookings")}
@@ -322,6 +318,54 @@ const OrganizerAddVenue = () => {
             onChange={handleChange}
             sx={{ mb: 3 }}
           />
+
+          {/* EVENT TYPE */}
+          <TextField
+            select
+            fullWidth
+            label="Event Type"
+            name="event_type"
+            value={form.event_type}
+            onChange={handleChange}
+            sx={{ mb: 3 }}
+          >
+            <MenuItem value="Wedding">Wedding</MenuItem>
+            <MenuItem value="Birthday">Birthday</MenuItem>
+            <MenuItem value="Corporate">Corporate</MenuItem>
+            <MenuItem value="Concert">Concert</MenuItem>
+          </TextField>
+
+          {/* FOOD TYPE */}
+          <TextField
+            select
+            fullWidth
+            label="Food Package"
+            name="food_type"
+            value={form.food_type}
+            onChange={handleChange}
+            sx={{ mb: 3 }}
+          >
+            <MenuItem value="Veg">Veg</MenuItem>
+            <MenuItem value="Non-Veg">Non-Veg</MenuItem>
+            <MenuItem value="Buffet">Buffet</MenuItem>
+            <MenuItem value="Snacks Only">Snacks Only</MenuItem>
+          </TextField>
+
+          {/* EQUIPMENT TYPE */}
+          <TextField
+            select
+            fullWidth
+            label="Equipment Type"
+            name="equipment_type"
+            value={form.equipment_type}
+            onChange={handleChange}
+            sx={{ mb: 3 }}
+          >
+            <MenuItem value="Sound System">Sound System</MenuItem>
+            <MenuItem value="Lighting">Lighting</MenuItem>
+            <MenuItem value="Stage Setup">Stage Setup</MenuItem>
+            <MenuItem value="Chairs & Tables">Chairs & Tables</MenuItem>
+          </TextField>
 
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <Button

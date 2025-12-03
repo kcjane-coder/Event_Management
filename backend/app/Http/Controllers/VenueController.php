@@ -9,21 +9,27 @@ class VenueController extends Controller
 {
     public function store(Request $request)
     {
-        // Validate data
-        $request->validate([
+        // Validate all fields including combo boxes
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'place' => 'required|string|max:255',
-            'contact' => 'required|string|max:20',
+            'contact' => 'required|string|max:50',
             'description' => 'required|string',
+            'event_type' => 'required|string|in:Wedding,Birthday,Corporate,Concert',
+            'food_type' => 'required|string|in:Veg,Non-Veg,Buffet,Snacks Only',
+            'equipment_type' => 'required|string|in:Sound System,Lighting,Stage Setup,Chairs & Tables',
         ]);
 
-        // Insert into database
+        // Create the venue
         $venue = Venue::create([
-            'organizer_id' => $request->user_id, 
-            'name' => $request->name,
-            'place' => $request->place,
-            'contact' => $request->contact,
-            'description' => $request->description,
+            'organizer_id' => auth()->id(),
+            'name' => $validated['name'],
+            'place' => $validated['place'],
+            'contact' => $validated['contact'],
+            'description' => $validated['description'],
+            'event_type' => $validated['event_type'],
+            'food_type' => $validated['food_type'],
+            'equipment_type' => $validated['equipment_type'],
         ]);
 
         return response()->json([

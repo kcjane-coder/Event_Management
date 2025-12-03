@@ -210,13 +210,7 @@ const OrganizerCreateEvent = () => {
           sx={getButtonStyle("/organizer/create-event")}
         >
           Create Event
-        </Button>
-        <Button
-          variant="text"
-          onClick={() => navigate("/venues")}
-          sx={getButtonStyle("/venues")}
-        >
-          View Venues
+          
         </Button>
         <Button
           variant="text"
@@ -351,16 +345,14 @@ const OrganizerCreateEvent = () => {
                     <TableCell>{v.description}</TableCell>
                     <TableCell>
                       <Button
-                        size="small"
-                        variant="contained"
-                        sx={{ mr: 1 }}
-                        onClick={() => {
-                          setSelectedVenue(v);
-                          setDetailsDialogOpen(true);
-                        }}
-                      >
-                        Details
-                      </Button>
+  size="small"
+  variant="contained"
+  sx={{ mr: 1 }}
+  onClick={() => navigate("/organizer/venues")}
+>
+  Details
+</Button>
+
                       <Button
                         size="small"
                         variant="outlined"

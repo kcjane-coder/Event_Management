@@ -22,4 +22,14 @@ Route::get('/organizer/venues', [VenueController::class, 'index']);
 
 Route::delete('/organizer/venues/{id}', [VenueController::class, 'destroy']);
 
+Route::middleware('auth:api')->get('/organizer/profile', function (Request $request) {
+    return response()->json([
+        'id' => $request->user()->id,
+        'role' => $request->user()->role,
+        'username' => $request->user()->username,
+        'email' => $request->user()->email,
+    ]);
+});
+
+
 Route::apiResource('posts', PostController::class);

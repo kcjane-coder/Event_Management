@@ -4,46 +4,40 @@ import {
   Typography,
   Paper,
   Button,
-  Grid,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  CircularProgress,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useNavigate, useLocation } from "react-router-dom";
 import axiosClient from "../../api/axiosClient";
 
-const OrganizerProfile = () => {
+const OrganizerVenueList = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
-
-  const [profile, setProfile] = useState({
-    id: "",
-    role: "",
-    username: "",
-    email: "",
-  });
+  const [venues, setVenues] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchProfile();
+    loadVenues();
   }, []);
 
-  const fetchProfile = async () => {
-  try {
-    const res = await axiosClient.get("/organizer/profile");
-
-    setProfile({
-      id: res.data.id,
-      role: res.data.role,
-      username: res.data.username,
-      email: res.data.email,
-    });
-
-  } catch (error) {
-    console.error("Profile error:", error);
-  }
-};
-
-
+  const loadVenues = async () => {
+    try {
+      const res = await axiosClient.get("/organizer/venues");
+      setVenues(res.data);
+      setLoading(false);
+    } catch (err) {
+      console.error(err);
+      setLoading(false);
+    }
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -64,7 +58,6 @@ const OrganizerProfile = () => {
     <Box
       sx={{
         minHeight: "100vh",
-        p: 0,
         backgroundImage:
           "url('https://i.pinimg.com/736x/65/d6/b6/65d6b6447e454e4d6a45a4e056d5cb6e.jpg')",
         backgroundSize: "cover",
@@ -84,8 +77,7 @@ const OrganizerProfile = () => {
           alignItems: "center",
         }}
       >
-        {/* LEFT */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+        <Box sx={{ display: "flex", gap: 2 }}>
           <Button
             startIcon={<MenuIcon />}
             variant="contained"
@@ -108,14 +100,12 @@ const OrganizerProfile = () => {
               left: "50%",
               transform: "translateX(-50%)",
               fontWeight: "bold",
-              whiteSpace: "nowrap",
             }}
           >
             Event Management Org
           </Typography>
         </Box>
 
-        {/* RIGHT */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <AccountCircleIcon sx={{ fontSize: 38 }} />
           <Button
@@ -134,7 +124,7 @@ const OrganizerProfile = () => {
         </Box>
       </Box>
 
-      {/* DARK OVERLAY */}
+      {/* SIDEBAR */}
       {menuOpen && (
         <Box
           onClick={() => setMenuOpen(false)}
@@ -150,7 +140,6 @@ const OrganizerProfile = () => {
         />
       )}
 
-      {/* SIDEBAR */}
       <Box
         sx={{
           position: "fixed",
@@ -159,11 +148,11 @@ const OrganizerProfile = () => {
           width: 250,
           height: "100vh",
           backgroundColor: "white",
-          boxShadow: 5,
           p: 3,
+          boxShadow: 5,
           zIndex: 11,
           transform: menuOpen ? "translateX(0)" : "translateX(-300px)",
-          transition: "transform 0.4s ease",
+          transition: "0.4s ease",
           display: "flex",
           flexDirection: "column",
           gap: 2,
@@ -173,104 +162,108 @@ const OrganizerProfile = () => {
           MENU
         </Typography>
 
-        <Button variant="text" onClick={() => navigate("/OrganizerDashBoard")} sx={getButtonStyle("/OrganizerDashBoard")}>Dashboard</Button>
-        <Button variant="text" onClick={() => navigate("/organizer/create-event")} sx={getButtonStyle("/organizer/create-event")}>Create Event</Button>
-        <Button variant="text" onClick={() => navigate("/venues")} sx={getButtonStyle("/venues")}>View Venues</Button>
-        <Button variant="text" onClick={() => navigate("/bookings")} sx={getButtonStyle("/bookings")}>View Bookings</Button>
-        <Button variant="text" onClick={() => navigate("/guest-list")} sx={getButtonStyle("/guest-list")}>Guest List</Button>
-        <Button variant="text" onClick={() => navigate("/rsvp")} sx={getButtonStyle("/rsvp")}>RSVP</Button>
-        <Button variant="text" onClick={() => navigate("/notifications")} sx={getButtonStyle("/notifications")}>Notifications</Button>
-        <Button variant="text" onClick={() => navigate("/profile")} sx={getButtonStyle("/profile")}>Profile</Button>
-
-        <Button sx={{ mt: "auto", color: "red", fontWeight: "bold" }} onClick={handleLogout}>Logout</Button>
-      </Box>
-
-      {/* PROFILE TITLE */}
-      <Box sx={{ textAlign: "center", mt: 4 }}>
         <Button
-          variant="outlined"
-          sx={{
-            fontWeight: "bold",
-            borderWidth: 2,
-            borderRadius: 2,
-            px: 4,
-            py: 1,
-            fontSize: "1.1rem",
-            color: "black",
-            borderColor: "black",
-            backgroundColor: "white",
-          }}
+          variant="text"
+          sx={getButtonStyle("/OrganizerDashBoard")}
+          onClick={() => navigate("/OrganizerDashBoard")}
         >
-          PROFILE
+          Dashboard
+        </Button>
+
+        <Button
+          variant="text"
+          sx={getButtonStyle("/organizer/create-event")}
+          onClick={() => navigate("/organizer/create-event")}
+        >
+          Create Event
+        </Button>
+
+        <Button
+          variant="text"
+          sx={getButtonStyle("/organizer/venues")}
+          onClick={() => navigate("/organizer/venues")}
+        >
+          Venues
+        </Button>
+
+        <Button
+          sx={{ mt: "auto", color: "red", fontWeight: "bold" }}
+          onClick={handleLogout}
+        >
+          Logout
         </Button>
       </Box>
 
-      {/* PROFILE CARD */}
-      <Paper
-        elevation={4}
-        sx={{
-          width: "60%",
-          mx: "auto",
-          mt: 4,
-          borderRadius: 4,
-          p: 4,
-          backgroundColor: "rgba(255,255,255,0.4)",
-          backdropFilter: "blur(5px)",
-        }}
-      >
-        {/* Avatar */}
-        <Box sx={{ textAlign: "center", mb: 3 }}>
-          <AccountCircleIcon sx={{ fontSize: 120, color: "#003548" }} />
-        </Box>
-
-        {/* Info Table */}
-        <table
-          style={{
-            width: "70%",
-            margin: "auto",
-            borderCollapse: "collapse",
-            fontSize: "1.1rem",
+      {/* TITLE */}
+      <Box sx={{ textAlign: "center", mt: 4 }}>
+        <Button
+          variant="contained"
+          sx={{
+            backgroundColor: "white",
+            color: "black",
             fontWeight: "bold",
+            borderRadius: 2,
+            px: 4,
+            py: 1.2,
+            fontSize: "1.1rem",
           }}
         >
-          <tbody>
-            <tr>
-              <td style={cellStyle}>ID</td>
-              <td style={valueStyle}>{profile.id}</td>
-            </tr>
-            <tr>
-              <td style={cellStyle}>Role</td>
-              <td style={valueStyle}>{profile.role}</td>
-            </tr>
-            <tr>
-              <td style={cellStyle}>Username</td>
-              <td style={valueStyle}>{profile.username}</td>
-            </tr>
-            <tr>
-              <td style={cellStyle}>Email</td>
-              <td style={valueStyle}>{profile.email}</td>
-            </tr>
-          </tbody>
-        </table>
+          VENUE LIST
+        </Button>
+      </Box>
+
+      {/* TABLE */}
+      <Paper
+        elevation={5}
+        sx={{
+          width: "80%",
+          mx: "auto",
+          mt: 4,
+          p: 4,
+          borderRadius: 4,
+          backgroundColor: "rgba(255,255,255,0.85)",
+        }}
+      >
+        {loading ? (
+          <Box sx={{ textAlign: "center" }}>
+            <CircularProgress />
+          </Box>
+        ) : (
+          <TableContainer>
+            <Table>
+              <TableHead sx={{ backgroundColor: "#003548" }}>
+                <TableRow>
+                  <TableCell sx={{ color: "white" }}>Venue Name</TableCell>
+                  <TableCell sx={{ color: "white" }}>Place</TableCell>
+                  <TableCell sx={{ color: "white" }}>Contact</TableCell>
+                  <TableCell sx={{ color: "white" }}>Description</TableCell>
+                </TableRow>
+              </TableHead>
+
+              <TableBody>
+                {venues.map((v) => (
+                  <TableRow key={v.id}>
+                    <TableCell>{v.name}</TableCell>
+                    <TableCell>{v.place}</TableCell>
+                    <TableCell>{v.contact}</TableCell>
+                    <TableCell>{v.description}</TableCell>
+                  </TableRow>
+                ))}
+
+                {venues.length === 0 && (
+                  <TableRow>
+                    <TableCell colSpan={4} align="center">
+                      No venues found.
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
       </Paper>
     </Box>
   );
 };
 
-const cellStyle = {
-  backgroundColor: "#003548",
-  color: "white",
-  padding: "12px",
-  width: "30%",
-  border: "1px solid black",
-  textAlign: "left",
-};
-
-const valueStyle = {
-  backgroundColor: "white",
-  padding: "12px",
-  border: "1px solid black",
-  textAlign: "left",
-};
-
-export default OrganizerProfile;
+export default OrganizerVenueList;

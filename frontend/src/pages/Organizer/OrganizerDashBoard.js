@@ -168,7 +168,6 @@ const OrganizerDashBoard = () => {
         {/* Sidebar Buttons with Active Highlight */}
         <Button variant="text"onClick={() => navigate("/OrganizerDashBoard")} sx={getButtonStyle("/OrganizerDashBoard")}>Dashboard</Button>
         <Button variant="text"onClick={() => navigate("/organizer/create-event")} sx={getButtonStyle("/organizer/create-event")}>Create Event</Button>
-        <Button variant="text"onClick={() => navigate("/venues")} sx={getButtonStyle("/venues")}>View Venues</Button>
         <Button variant="text"onClick={() => navigate("/bookings")} sx={getButtonStyle("/bookings")}>View Bookings</Button>
         <Button variant="text"onClick={() => navigate("/guest-list")} sx={getButtonStyle("/guest-list")}>Guest List</Button>
         <Button variant="text"onClick={() => navigate("/rsvp")} sx={getButtonStyle("/rsvp")}>RSVP</Button>
