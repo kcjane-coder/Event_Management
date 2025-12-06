@@ -60,4 +60,16 @@ public function destroy($id)
     return response()->json(['message' => 'Venue deleted successfully']);
 }
 
+public function show($id)
+{
+    $venue = Venue::find($id);
+
+    if (!$venue) {
+        return response()->json(['message' => 'Venue not found'], 404);
+    }
+
+    return response()->json($venue);
+}
+
+
 }

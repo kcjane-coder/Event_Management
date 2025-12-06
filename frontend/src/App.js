@@ -10,8 +10,9 @@ import OrganizerCreateEvent from "./pages/Organizer/OrganizerCreateEvent";
 import OrganizerAddVenue from "./pages/Organizer/OrganizerAddVenue";
 import ViewBookings from "./pages/Organizer/ViewBookings";
 import PostForm from './components/PostForm';
-import DetailsPage from './pages/Organizer/DetailsPage';
+import OrganizerVenueDetails from './pages/Organizer/OrganizerVenueDeatils';
 import OrganizerProfile from './pages/Organizer/OrganizerProfile';
+import BookVenue from "./pages/User/BookVenue";
 
 function App() {
   const [selectedPost, setSelectedPost] = useState(null);
@@ -53,7 +54,10 @@ function App() {
         <Route path="/organizer/add-venue" element={<OrganizerAddVenue />} />
         <Route path="/bookings" element={<ViewBookings />} /> 
         <Route path="/profile" element={<OrganizerProfile />} /> 
-        <Route path="/organizer/venues" element={<DetailsPage/>} />
+        <Route path="/organizer/venue/:id" element={<OrganizerVenueDetails />} />
+        <Route path="/BookVenue" element={<BookVenue />} />
+
+
       </Routes>
     </Router>
   );

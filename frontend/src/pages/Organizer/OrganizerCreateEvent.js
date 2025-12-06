@@ -348,7 +348,8 @@ const OrganizerCreateEvent = () => {
   size="small"
   variant="contained"
   sx={{ mr: 1 }}
-  onClick={() => navigate("/organizer/venues")}
+  onClick={() => navigate(`/organizer/venue/${v.id}`, { state: v })}
+
 >
   Details
 </Button>
