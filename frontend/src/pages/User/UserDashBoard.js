@@ -82,12 +82,24 @@ const UserDashBoard = () => {
       <Box sx={{ position: "fixed", top: 0, left: 0, width: 250, height: "100vh", backgroundColor: "white", boxShadow: 5, p: 3, zIndex: 11, transform: menuOpen ? "translateX(0)" : "translateX(-300px)", transition: "transform 0.4s ease", display: "flex", flexDirection: "column", gap: 2 }}>
         <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2 }}>MENU</Typography>
 
-        <Button variant="text" onClick={() => navigate("/UserDashBoard")} sx={getButtonStyle("/UserDashBoard")}>Dashboard</Button>
-        <Button variant="text" onClick={() => navigate("/BookVenue")} sx={getButtonStyle("/BookVenue")}>Book Venue</Button>
-        <Button variant="text" onClick={() => navigate("/venues")} sx={getButtonStyle("/venues")}>View Venues</Button>
-        <Button variant="text" onClick={() => navigate("/Notifications")} sx={getButtonStyle("/Notifications")}>Notifications</Button>
-        <Button variant="text" onClick={() => navigate("/BookingHistory")} sx={getButtonStyle("/BookingHistory")}>Booking History</Button>
-        <Button variant="text" onClick={() => navigate("/Profile")} sx={getButtonStyle("/Profile")}>Profile</Button>
+        <Button sx={getButtonStyle("/UserDashBoard")} onClick={() => navigate("/UserDashBoard")}>
+                  Dashboard
+                </Button>
+                <Button sx={getButtonStyle("/UserBookEvent")} onClick={() => navigate("/UserBookEvent")}>
+                  Book Event
+                </Button>
+                <Button sx={getButtonStyle("/user/venues")} onClick={() => navigate("/user/venues")}>
+                  View Venues
+                </Button>
+                <Button sx={getButtonStyle("/user/notifications")} onClick={() => navigate("/user/notifications")}>
+                  Notifications
+                </Button>
+                <Button sx={getButtonStyle("/user/bookings")} onClick={() => navigate("/user/bookings")}>
+                  Booking History
+                </Button>
+                <Button sx={getButtonStyle("/UserProfile")} onClick={() => navigate("/UserProfile")}>
+                  Profile
+                </Button>
 
         <Button sx={{ mt: "auto", color: "red", fontWeight: "bold" }} onClick={handleLogout}>Logout</Button>
       </Box>

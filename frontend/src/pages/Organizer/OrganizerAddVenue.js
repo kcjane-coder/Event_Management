@@ -204,40 +204,40 @@ const OrganizerAddVenue = () => {
         </Button>
         <Button
           variant="text"
-          onClick={() => navigate("/bookings")}
-          sx={getButtonStyle("/bookings")}
+          onClick={() => navigate("/Organizerbookings")}
+          sx={getButtonStyle("/Organizerbookings")}
         >
           View Bookings
         </Button>
 
         <Button
           variant="text"
-          onClick={() => navigate("/guest-list")}
-          sx={getButtonStyle("/guest-list")}
+          onClick={() => navigate("/Organizerguest-list")}
+          sx={getButtonStyle("/Organizerguest-list")}
         >
           Guest List
         </Button>
 
         <Button
           variant="text"
-          onClick={() => navigate("/rsvp")}
-          sx={getButtonStyle("/rsvp")}
+          onClick={() => navigate("/Organizerrsvp")}
+          sx={getButtonStyle("/Organizerrsvp")}
         >
           RSVP
         </Button>
 
         <Button
           variant="text"
-          onClick={() => navigate("/notifications")}
-          sx={getButtonStyle("/notifications")}
+          onClick={() => navigate("/Organizernotifications")}
+          sx={getButtonStyle("/Organizernotifications")}
         >
           Notifications
         </Button>
 
         <Button
           variant="text"
-          onClick={() => navigate("/profile")}
-          sx={getButtonStyle("/profile")}
+          onClick={() => navigate("/Organizerprofile")}
+          sx={getButtonStyle("/Organizerprofile")}
         >
           Profile
         </Button>

@@ -5,9 +5,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\VenueController;
+use App\Http\Controllers\Admin\AdminUserController;
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/admin/users', [AdminUserController::class, 'index']);
 });
 
 Route::post('/register',
@@ -19,6 +20,8 @@ Route::post('/login',
 Route::post('/organizer/venues', [VenueController::class, 'store']);
 
 Route::get('/organizer/venues', [VenueController::class, 'index']);
+Route::get('/venues', [VenueController::class, 'index']);
+
 
 Route::delete('/organizer/venues/{id}', [VenueController::class, 'destroy']);
 
@@ -33,6 +36,13 @@ Route::middleware('auth:api')->get('/organizer/profile', function (Request $requ
         'email' => $request->user()->email,
     ]);
 });
+
+
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/admin/users', [AdminUserController::class, 'index']);
+});
+
 
 
 Route::apiResource('posts', PostController::class);

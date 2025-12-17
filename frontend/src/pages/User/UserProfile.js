@@ -11,7 +11,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useNavigate, useLocation } from "react-router-dom";
 import axiosClient from "../../api/axiosClient";
 
-const OrganizerProfile = () => {
+const UserProfile = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -173,60 +173,24 @@ const OrganizerProfile = () => {
           MENU
         </Typography>
 
-       <Button
-                 variant="text"
-                 onClick={() => navigate("/OrganizerDashBoard")}
-                 sx={getButtonStyle("/OrganizerDashBoard")}
-               >
-                 Dashboard
-               </Button>
-       
-               <Button
-                 variant="text"
-                 onClick={() => navigate("/organizer/create-event")}
-                 sx={getButtonStyle("/organizer/create-event")}
-               >
-                 Create Event
-               </Button>
-               <Button
-                 variant="text"
-                 onClick={() => navigate("/Organizerbookings")}
-                 sx={getButtonStyle("/Organizerbookings")}
-               >
-                 View Bookings
-               </Button>
-       
-               <Button
-                 variant="text"
-                 onClick={() => navigate("/Organizerguest-list")}
-                 sx={getButtonStyle("/Organizerguest-list")}
-               >
-                 Guest List
-               </Button>
-       
-               <Button
-                 variant="text"
-                 onClick={() => navigate("/Organizerrsvp")}
-                 sx={getButtonStyle("/Organizerrsvp")}
-               >
-                 RSVP
-               </Button>
-       
-               <Button
-                 variant="text"
-                 onClick={() => navigate("/Organizernotifications")}
-                 sx={getButtonStyle("/Organizernotifications")}
-               >
-                 Notifications
-               </Button>
-       
-               <Button
-                 variant="text"
-                 onClick={() => navigate("/Organizerprofile")}
-                 sx={getButtonStyle("/Organizerprofile")}
-               >
-                 Profile
-               </Button>
+       <Button sx={getButtonStyle("/UserDashBoard")} onClick={() => navigate("/UserDashBoard")}>
+                         Dashboard
+                       </Button>
+                       <Button sx={getButtonStyle("/UserBookEvent")} onClick={() => navigate("/UserBookEvent")}>
+                         Book Event
+                       </Button>
+                       <Button sx={getButtonStyle("/user/venues")} onClick={() => navigate("/user/venues")}>
+                         View Venues
+                       </Button>
+                       <Button sx={getButtonStyle("/user/notifications")} onClick={() => navigate("/user/notifications")}>
+                         Notifications
+                       </Button>
+                       <Button sx={getButtonStyle("/user/bookings")} onClick={() => navigate("/user/bookings")}>
+                         Booking History
+                       </Button>
+                       <Button sx={getButtonStyle("/UserProfile")} onClick={() => navigate("/UserProfile")}>
+                         Profile
+                       </Button>
 
         <Button sx={{ mt: "auto", color: "red", fontWeight: "bold" }} onClick={handleLogout}>Logout</Button>
       </Box>
@@ -319,4 +283,4 @@ const valueStyle = {
   textAlign: "left",
 };
 
-export default OrganizerProfile;
+export default UserProfile;

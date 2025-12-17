@@ -166,13 +166,60 @@ const OrganizerDashBoard = () => {
         </Typography>
 
         {/* Sidebar Buttons with Active Highlight */}
-        <Button variant="text"onClick={() => navigate("/OrganizerDashBoard")} sx={getButtonStyle("/OrganizerDashBoard")}>Dashboard</Button>
-        <Button variant="text"onClick={() => navigate("/organizer/create-event")} sx={getButtonStyle("/organizer/create-event")}>Create Event</Button>
-        <Button variant="text"onClick={() => navigate("/bookings")} sx={getButtonStyle("/bookings")}>View Bookings</Button>
-        <Button variant="text"onClick={() => navigate("/guest-list")} sx={getButtonStyle("/guest-list")}>Guest List</Button>
-        <Button variant="text"onClick={() => navigate("/rsvp")} sx={getButtonStyle("/rsvp")}>RSVP</Button>
-        <Button variant="text"onClick={() => navigate("/notifications")} sx={getButtonStyle("/notifications")}>Notifications</Button>
-        <Button variant="text"onClick={() => navigate("/profile")} sx={getButtonStyle("/profile")}>Profile</Button>
+        <Button
+                  variant="text"
+                  onClick={() => navigate("/OrganizerDashBoard")}
+                  sx={getButtonStyle("/OrganizerDashBoard")}
+                >
+                  Dashboard
+                </Button>
+        
+                <Button
+                  variant="text"
+                  onClick={() => navigate("/organizer/create-event")}
+                  sx={getButtonStyle("/organizer/create-event")}
+                >
+                  Create Event
+                </Button>
+                <Button
+                  variant="text"
+                  onClick={() => navigate("/Organizerbookings")}
+                  sx={getButtonStyle("/Organizerbookings")}
+                >
+                  View Bookings
+                </Button>
+        
+                <Button
+                  variant="text"
+                  onClick={() => navigate("/Organizerguest-list")}
+                  sx={getButtonStyle("/Organizerguest-list")}
+                >
+                  Guest List
+                </Button>
+        
+                <Button
+                  variant="text"
+                  onClick={() => navigate("/Organizerrsvp")}
+                  sx={getButtonStyle("/Organizerrsvp")}
+                >
+                  RSVP
+                </Button>
+        
+                <Button
+                  variant="text"
+                  onClick={() => navigate("/Organizernotifications")}
+                  sx={getButtonStyle("/Organizernotifications")}
+                >
+                  Notifications
+                </Button>
+        
+                <Button
+                  variant="text"
+                  onClick={() => navigate("/Organizerprofile")}
+                  sx={getButtonStyle("/Organizerprofile")}
+                >
+                  Profile
+                </Button>
 
         <Button
           sx={{ mt: "auto", color: "red", fontWeight: "bold" }}

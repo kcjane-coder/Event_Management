@@ -11,7 +11,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useNavigate, useLocation } from "react-router-dom";
 import axiosClient from "../../api/axiosClient";
 
-const OrganizerProfile = () => {
+const AdminProfile = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -173,60 +173,23 @@ const OrganizerProfile = () => {
           MENU
         </Typography>
 
-       <Button
-                 variant="text"
-                 onClick={() => navigate("/OrganizerDashBoard")}
-                 sx={getButtonStyle("/OrganizerDashBoard")}
-               >
+       <Button sx={getButtonStyle("/AdminDashBoard")} onClick={() => navigate("/AdminDashBoard")}>
                  Dashboard
                </Button>
-       
-               <Button
-                 variant="text"
-                 onClick={() => navigate("/organizer/create-event")}
-                 sx={getButtonStyle("/organizer/create-event")}
-               >
-                 Create Event
-               </Button>
-               <Button
-                 variant="text"
-                 onClick={() => navigate("/Organizerbookings")}
-                 sx={getButtonStyle("/Organizerbookings")}
-               >
+               <Button sx={getButtonStyle("/adminbookings")} onClick={() => navigate("/adminbookings")}>
                  View Bookings
                </Button>
-       
-               <Button
-                 variant="text"
-                 onClick={() => navigate("/Organizerguest-list")}
-                 sx={getButtonStyle("/Organizerguest-list")}
-               >
-                 Guest List
+               <Button sx={getButtonStyle("/AdminViewVenues")} onClick={() => navigate("/AdminViewVenues")}>
+                 View Venues
+               </Button>
+               <Button sx={getButtonStyle("/admin/organizers")} onClick={() => navigate("/admin/organizers")}>
+                 Organizers
+               </Button>
+               <Button sx={getButtonStyle("/admin/users")} onClick={() => navigate("/admin/users")}>
+                 Users
                </Button>
        
-               <Button
-                 variant="text"
-                 onClick={() => navigate("/Organizerrsvp")}
-                 sx={getButtonStyle("/Organizerrsvp")}
-               >
-                 RSVP
-               </Button>
-       
-               <Button
-                 variant="text"
-                 onClick={() => navigate("/Organizernotifications")}
-                 sx={getButtonStyle("/Organizernotifications")}
-               >
-                 Notifications
-               </Button>
-       
-               <Button
-                 variant="text"
-                 onClick={() => navigate("/Organizerprofile")}
-                 sx={getButtonStyle("/Organizerprofile")}
-               >
-                 Profile
-               </Button>
+                <Button variant="text" onClick={() => navigate("/adminprofile")} sx={getButtonStyle("/adminprofile")}>Profile</Button>
 
         <Button sx={{ mt: "auto", color: "red", fontWeight: "bold" }} onClick={handleLogout}>Logout</Button>
       </Box>
@@ -319,4 +282,4 @@ const valueStyle = {
   textAlign: "left",
 };
 
-export default OrganizerProfile;
+export default AdminProfile;

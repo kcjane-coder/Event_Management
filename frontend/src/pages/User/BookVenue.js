@@ -162,19 +162,19 @@ const BookVenue = () => {
         <Button sx={getButtonStyle("/UserDashBoard")} onClick={() => navigate("/UserDashBoard")}>
           Dashboard
         </Button>
-        <Button sx={getButtonStyle("/BookEvent")} onClick={() => navigate("/BookEvent")}>
+        <Button sx={getButtonStyle("/UserBookEvent")} onClick={() => navigate("/UserBookEvent")}>
           Book Event
         </Button>
-        <Button sx={getButtonStyle("/venues")} onClick={() => navigate("/venues")}>
+        <Button sx={getButtonStyle("/user/venues")} onClick={() => navigate("/user/venues")}>
           View Venues
         </Button>
-        <Button sx={getButtonStyle("/Notifications")} onClick={() => navigate("/Notifications")}>
+        <Button sx={getButtonStyle("/user/notifications")} onClick={() => navigate("/user/notifications")}>
           Notifications
         </Button>
-        <Button sx={getButtonStyle("/BookingHistory")} onClick={() => navigate("/BookingHistory")}>
+        <Button sx={getButtonStyle("/user/bookings")} onClick={() => navigate("/user/bookings")}>
           Booking History
         </Button>
-        <Button sx={getButtonStyle("/Profile")} onClick={() => navigate("/Profile")}>
+        <Button sx={getButtonStyle("/UserProfile")} onClick={() => navigate("/UserProfile")}>
           Profile
         </Button>
 

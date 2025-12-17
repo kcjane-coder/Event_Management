@@ -17,7 +17,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useNavigate, useLocation } from "react-router-dom";
 import axiosClient from "../../api/axiosClient";
 
-const ViewBookings = () => {
+const UserBookingHistory = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -40,21 +40,22 @@ const ViewBookings = () => {
     navigate("/login");
   };
 
-  // ----------- FETCH BOOKINGS ----------
+  // -------- FETCH USER BOOKINGS --------
   useEffect(() => {
-    const fetchBookings = async () => {
+    const fetchUserBookings = async () => {
       try {
-        const res = await axiosClient.get("/organizer/bookings");
-        setBookings(res.data); 
+        // USER BOOKING HISTORY ENDPOINT
+        const res = await axiosClient.get("/user/bookings");
+        setBookings(res.data);
       } catch (err) {
         console.error(err);
-        alert("Failed to fetch bookings.");
+        alert("Failed to fetch booking history.");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchBookings();
+    fetchUserBookings();
   }, []);
 
   return (
@@ -70,7 +71,6 @@ const ViewBookings = () => {
       {/* HEADER */}
       <Box
         sx={{
-          width: "100%",
           p: 2,
           px: 4,
           background: "linear-gradient(90deg, #004b63, #001f2f)",
@@ -80,36 +80,34 @@ const ViewBookings = () => {
           alignItems: "center",
         }}
       >
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          <Button
-            startIcon={<MenuIcon />}
-            variant="contained"
-            sx={{
-              backgroundColor: "#fff",
-              color: "#003548",
-              fontWeight: "bold",
-              borderRadius: 2,
-              textTransform: "none",
-            }}
-            onClick={() => setMenuOpen(true)}
-          >
-            Menu
-          </Button>
+        <Button
+          startIcon={<MenuIcon />}
+          variant="contained"
+          sx={{
+            backgroundColor: "#fff",
+            color: "#003548",
+            fontWeight: "bold",
+            borderRadius: 2,
+            textTransform: "none",
+          }}
+          onClick={() => setMenuOpen(true)}
+        >
+          Menu
+        </Button>
 
-          <Typography
-            variant="h5"
-            sx={{
-              position: "absolute",
-              left: "50%",
-              transform: "translateX(-50%)",
-              fontWeight: "bold",
-            }}
-          >
-            Event Management Org
-          </Typography>
-        </Box>
+        <Typography
+          variant="h5"
+          sx={{
+            position: "absolute",
+            left: "50%",
+            transform: "translateX(-50%)",
+            fontWeight: "bold",
+          }}
+        >
+          Event Management Org
+        </Typography>
 
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1, pr: 4 }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <AccountCircleIcon sx={{ fontSize: 38 }} />
           <Button
             variant="contained"
@@ -127,16 +125,13 @@ const ViewBookings = () => {
         </Box>
       </Box>
 
-      {/* DARK OVERLAY */}
+      {/* OVERLAY */}
       {menuOpen && (
         <Box
           onClick={() => setMenuOpen(false)}
           sx={{
             position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100vw",
-            height: "100vh",
+            inset: 0,
             backgroundColor: "rgba(0,0,0,0.4)",
             zIndex: 10,
           }}
@@ -162,62 +157,26 @@ const ViewBookings = () => {
           gap: 2,
         }}
       >
-        <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2 }}>
+        <Typography variant="h6" fontWeight="bold">
           MENU
         </Typography>
 
-        <Button
-                  variant="text"
-                  onClick={() => navigate("/OrganizerDashBoard")}
-                  sx={getButtonStyle("/OrganizerDashBoard")}
-                >
+        <Button sx={getButtonStyle("/UserDashBoard")} onClick={() => navigate("/UserDashBoard")}>
                   Dashboard
                 </Button>
-        
-                <Button
-                  variant="text"
-                  onClick={() => navigate("/organizer/create-event")}
-                  sx={getButtonStyle("/organizer/create-event")}
-                >
-                  Create Event
+                <Button sx={getButtonStyle("/UserBookEvent")} onClick={() => navigate("/UserBookEvent")}>
+                  Book Event
                 </Button>
-                <Button
-                  variant="text"
-                  onClick={() => navigate("/Organizerbookings")}
-                  sx={getButtonStyle("/Organizerbookings")}
-                >
-                  View Bookings
+                <Button sx={getButtonStyle("/user/venues")} onClick={() => navigate("/user/venues")}>
+                  View Venues
                 </Button>
-        
-                <Button
-                  variant="text"
-                  onClick={() => navigate("/Organizerguest-list")}
-                  sx={getButtonStyle("/Organizerguest-list")}
-                >
-                  Guest List
-                </Button>
-        
-                <Button
-                  variant="text"
-                  onClick={() => navigate("/Organizerrsvp")}
-                  sx={getButtonStyle("/Organizerrsvp")}
-                >
-                  RSVP
-                </Button>
-        
-                <Button
-                  variant="text"
-                  onClick={() => navigate("/Organizernotifications")}
-                  sx={getButtonStyle("/Organizernotifications")}
-                >
+                <Button sx={getButtonStyle("/user/notifications")} onClick={() => navigate("/user/notifications")}>
                   Notifications
                 </Button>
-        
-                <Button
-                  variant="text"
-                  onClick={() => navigate("/Organizerprofile")}
-                  sx={getButtonStyle("/Organizerprofile")}
-                >
+                <Button sx={getButtonStyle("/user/bookings")} onClick={() => navigate("/user/bookings")}>
+                  Booking History
+                </Button>
+                <Button sx={getButtonStyle("/UserProfile")} onClick={() => navigate("/UserProfile")}>
                   Profile
                 </Button>
 
@@ -240,7 +199,7 @@ const ViewBookings = () => {
             fontSize: "1.1rem",
           }}
         >
-          VIEW BOOKINGS
+          BOOKING HISTORY
         </Button>
       </Box>
 
@@ -262,7 +221,7 @@ const ViewBookings = () => {
           </Box>
         ) : bookings.length === 0 ? (
           <Typography textAlign="center" fontWeight="bold">
-            No bookings found.
+            No booking history found.
           </Typography>
         ) : (
           <TableContainer>
@@ -270,7 +229,7 @@ const ViewBookings = () => {
               <TableHead>
                 <TableRow>
                   <TableCell><b>ID</b></TableCell>
-                  <TableCell><b>Event Name</b></TableCell>
+                  <TableCell><b>Event</b></TableCell>
                   <TableCell><b>Venue</b></TableCell>
                   <TableCell><b>Date</b></TableCell>
                   <TableCell><b>Status</b></TableCell>
@@ -296,4 +255,4 @@ const ViewBookings = () => {
   );
 };
 
-export default ViewBookings;
+export default UserBookingHistory;

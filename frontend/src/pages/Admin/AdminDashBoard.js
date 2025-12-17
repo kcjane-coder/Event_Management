@@ -124,11 +124,19 @@ const AdminDashBoard = () => {
         >
           Dashboard
         </Button>
-        <Button variant="text" onClick={() => navigate("/all-bookings")} sx={getButtonStyle("/all-bookings")}>View Bookings</Button>
-        <Button variant="text" onClick={() => navigate("/venues")} sx={getButtonStyle("/venues")}>View Venues</Button>
-        <Button variant="text" onClick={() => navigate("/organizers")} sx={getButtonStyle("/organizers")}>Organizers</Button>
-        <Button variant="text" onClick={() => navigate("/guests")} sx={getButtonStyle("/guests")}>Guests</Button>
-        <Button variant="text" onClick={() => navigate("/profile")} sx={getButtonStyle("/profile")}>Profile</Button>
+        <Button variant="text" onClick={() => navigate("/adminbookings")} sx={getButtonStyle("/adminbookings")}>View Bookings</Button>
+        <Button variant="text" onClick={() => navigate("/AdminViewVenues")} sx={getButtonStyle("/AdminViewVenues")}>View Venues</Button>
+        <Button variant="text" onClick={() => navigate("/admin/organizers")} sx={getButtonStyle("/admin/organizers")}>Organizers</Button>
+        <Button
+  variant="text"
+  onClick={() => navigate("/admin/users")}
+  sx={getButtonStyle("/admin/users")}
+>
+  Users
+</Button>
+
+
+        <Button variant="text" onClick={() => navigate("/adminprofile")} sx={getButtonStyle("/adminprofile")}>Profile</Button>
 
         <Button sx={{ mt: "auto", color: "red", fontWeight: "bold" }} onClick={handleLogout}>Logout</Button>
       </Box>
